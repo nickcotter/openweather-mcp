@@ -1,0 +1,7 @@
+spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+  weather:
+    openweather:
+      api-key: ${OPENWEATHER_API_KEY}
