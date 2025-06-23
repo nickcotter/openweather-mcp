@@ -15,7 +15,10 @@ public class OpenWeatherClient {
         this.apiKey = apiKey;
     }
 
+    // https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric
+
     public WeatherResponse getWeather(String city) {
+
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/weather")
