@@ -1,33 +1,24 @@
 package net.extropy.openweathermcp;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class WeatherResponse {
-    private Map<String, Object> main;
-    private Map<String, Object>[] weather;
-    private String name;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record WeatherResponse(
+    Coord coord,
+    Weather[] weather,
+    Main main,
+    String name // City name
+) {
+    public record Coord(double lon, double lat) {}
+    public record Weather(String main, String description, String icon) {}
+    public record Main(double temp, double feels_like, double temp_min, double temp_max,
+                       int pressure, int humidity) {}
 
-    public Map<String, Object> getMain() {
-        return main;
-    }
-
-    public void setMain(Map<String, Object> main) {
-        this.main = main;
-    }
-
-    public Map<String, Object>[] getWeather() {
-        return weather;
-    }
-
-    public void setWeather(Map<String, Object>[] weather) {
-        this.weather = weather;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String toReadableString() {
+        if (weather != null && weather.length > 0) {
+            return String.format("The weather in %s is %s with a temperature of %.1f°C (feels like %.1f°C). Description: %s. Humidity: %d%%.",
+                    name, weather[0].main(), main.temp(), main.feels_like(), weather[0].description(), main.humidity());
+        }
+        return "Could not retrieve detailed weather information.";
     }
 }

@@ -15,19 +15,25 @@ Ensure these 2 environment variables are set.
 
 > export SPRING_AI_OPENAI_API_KEY=<your openai key>
 
-> export WEATHER_OPENWEATHER_API_KEY=<your open weather api key>
+> export OPENWEATHER_API_KEY=<your open weather api key>
+
+You may wish to create a local properties file with your values - don't commit this! - use application.properties as a basis.
 
 
 Start the app:
 
 > gradle bootRun
 
+Or if you are using local properties:
+
+> gradle bootRun --args='--spring.config.location=file:./local.properties'
+
+
 Make a query:
 
 
-> curl --get --data-urlencode "query=What's the weather like in Rome today?" http://localhost:8080/weather
+> curl --get --data-urlencode "message=What's the weather like in Paris today?" http://localhost:8080/chat/weather
 
 You should get a response of this form:
 
-> {"main":{"temp":23.67,"feels_like":24.16,"temp_min":22.49,"temp_max":24.31,"pressure":1019,"humidity":79,"sea_level":1019,"grnd_level":992},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04n"}],"name":"Rome"}
-
+> The weather in Paris today is clear, with a temperature of 38.9°C (feels like 39.2°C). The humidity is at 25%.
